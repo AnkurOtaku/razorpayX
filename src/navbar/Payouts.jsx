@@ -82,7 +82,7 @@ function Payouts() {
         setFilteredPayouts(temp);
         break;
       case 6:
-        temp = payoutsData.slice(0,pageValue);
+        temp = payoutsData.slice(0, pageValue);
         setFilteredPayouts(temp);
         break;
       default:
@@ -99,8 +99,8 @@ function Payouts() {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
       filter_payouts(payoutsData, 4);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -484,9 +484,14 @@ function Payouts() {
             </div>
           </div>
           <div className="flex items-center py-4">
-            <div className="text-2xl px-2 cursor-pointer">
+            <button
+              className="text-2xl px-2 cursor-pointer"
+              onClick={() => {
+                filter_payouts(payoutsData, 4);
+              }}
+            >
               <IoMdRefresh />
-            </div>
+            </button>
             <div className="text-2xl px-2 cursor-pointer">
               <IoMdMore />
             </div>
@@ -558,58 +563,69 @@ function Payouts() {
           </div>
         </div>
         <div className="my-4 border-[#484f77] border w-full" />
-        <table className="min-w-full table-auto">
-          <thead>
-            <tr className="text-left *:font-light">
-              <th className="py-2 px-4">CREATED AT</th>
-              <th className="py-2 px-4">AMOUNT</th>
-              <th className="py-2 px-4 text-center">STATUS</th>
-              <th className="py-2 px-4">CONTACT</th>
-              <th className="py-2 px-4">CREATED BY</th>
-              <th className="py-2 px-4">
-                UTR{" "}
-                <button className="text-gray-500">
-                  <FaQuestionCircle />
-                </button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredPayouts.map((payout, index) => (
-              <tr key={index}>
-                <td className="py-2 px-4">{payout.date}</td>
-                <td className="py-2 px-4">
-                  <span className="text-sm text-gray-500">₹</span>
-                  {payout.amount}
-                  <span className="text-sm text-gray-500">.00</span>
-                </td>
-                <td className="py-2 px-4 capitalize">
-                  <div
-                    className={`rounded-full text-center xl:w-[80%] ${
-                      payout.status === "queued"
-                        ? "bg-yellow-900 text-yellow-400"
-                        : payout.status === "completed"
-                        ? "bg-green-900 text-green-400"
-                        : payout.status === "failed"
-                        ? "bg-red-800 text-red-300"
-                        : ""
-                    }`}
-                  >
-                    {payout.status}
-                  </div>
-                </td>
-                <td className="py-2 px-4 break-all">{payout.contact}</td>
-                <td className="py-2 px-4 text-gray-500">{payout.createdby}</td>
-                <td className="py-2 px-4">{payout.UTR ? payout.UTR : "__"}</td>
+        {!filteredPayouts ? (
+          <div>Try Refreshing Table</div>
+        ) : (
+          <table className="min-w-full table-auto">
+            <thead>
+              <tr className="text-left *:font-light">
+                <th className="py-2 px-4">CREATED AT</th>
+                <th className="py-2 px-4">AMOUNT</th>
+                <th className="py-2 px-4 text-center">STATUS</th>
+                <th className="py-2 px-4">CONTACT</th>
+                <th className="py-2 px-4">CREATED BY</th>
+                <th className="py-2 px-4">
+                  UTR{" "}
+                  <button className="text-gray-500">
+                    <FaQuestionCircle />
+                  </button>
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredPayouts.map((payout, index) => (
+                <tr key={index}>
+                  <td className="py-2 px-4">{payout.date}</td>
+                  <td className="py-2 px-4">
+                    <span className="text-sm text-gray-500">₹</span>
+                    {payout.amount}
+                    <span className="text-sm text-gray-500">.00</span>
+                  </td>
+                  <td className="py-2 px-4 capitalize">
+                    <div
+                      className={`rounded-full text-center xl:w-[80%] ${
+                        payout.status === "queued"
+                          ? "bg-yellow-900 text-yellow-400"
+                          : payout.status === "completed"
+                          ? "bg-green-900 text-green-400"
+                          : payout.status === "failed"
+                          ? "bg-red-800 text-red-300"
+                          : ""
+                      }`}
+                    >
+                      {payout.status}
+                    </div>
+                  </td>
+                  <td className="py-2 px-4 break-all">{payout.contact}</td>
+                  <td className="py-2 px-4 text-gray-500">
+                    {payout.createdby}
+                  </td>
+                  <td className="py-2 px-4">
+                    {payout.UTR ? payout.UTR : "__"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
         <div className="my-4 border-[#484f77] border w-full" />
       </div>
 
       {/* pagination */}
-      <div className="absolute right-4 inline-block text-left" ref={dropdownPageRef}>
+      <div
+        className="absolute right-4 inline-block text-left"
+        ref={dropdownPageRef}
+      >
         <div>
           <button
             type="button"
