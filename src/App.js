@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import Home from "./navbar/Home";
+import Payouts from "./navbar/Payouts";
+import AccountStatement from "./navbar/AccountStatement";
+import Contacts from "./navbar/Contacts";
+import VendorPayments from "./navbar/VendorPayments";
+import TaxPayments from "./navbar/TaxPayments";
+import PayoutLinks from "./navbar/PayoutLinks";
+import Payroll from "./navbar/Payroll";
+import Reports from "./navbar/Reports";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Sidebar />
+        <div className="ml-20 text-white">
+          <Routes>
+            {/* setting payouts page as default */}
+            <Route path="/" element={<Payouts />} />
+
+            <Route path="Home" element={<Home />} />
+            <Route path="Payouts" element={<Payouts />} />
+            <Route path="AccountStatement" element={<AccountStatement />} />
+            <Route path="Contacts" element={<Contacts />} />
+            <Route path="VendorPayments" element={<VendorPayments />} />
+            <Route path="TaxPayments" element={<TaxPayments />} />
+            <Route path="PayoutLinks" element={<PayoutLinks />} />
+            <Route path="Payroll" element={<Payroll />} />
+            <Route path="Reports" element={<Reports />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </>
   );
 }
 
