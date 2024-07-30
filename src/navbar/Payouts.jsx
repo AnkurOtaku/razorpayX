@@ -99,7 +99,8 @@ function Payouts() {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      filter_payouts(payoutsData, 4);
+      // filter_payouts(payoutsData, 4);
+      console.log(filteredPayouts);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
@@ -563,7 +564,7 @@ function Payouts() {
           </div>
         </div>
         <div className="my-4 border-[#484f77] border w-full" />
-        {!filteredPayouts ? (
+        {filteredPayouts.length===0 ? (
           <div>Try Refreshing Table</div>
         ) : (
           <table className="min-w-full table-auto">
